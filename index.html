@@ -1,9 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Browser Tab Icon (Favicon) Configuration -->
+<!-- Ultimate Favicon Cache-Buster Code -->
+<link rel="icon" type="image/x-icon" href="logo.ico?v=2">
+<link rel="shortcut icon" type="image/x-icon" href="logo.ico?v=2">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Petwal Extracts - Premium Streaming Catalog</title>
+    
+    <!-- Core SEO Meta Tags for Google Indexing Top Placement -->
+    <title>Petwal Extracts | Petracts - Watch Free Movies & Series Streaming Catalog</title>
+    <meta name="description" content="Welcome to Petwal Extracts (Petracts). Explore our ultimate premium catalog library to watch free movies, trending web series, and exclusive streaming content directly.">
+    <meta name="keywords" content="Petwal Extracts, Petracts, Petwal, Free Movies, Watch Free Movies, Streaming Catalog, Free Web Series, Petwal Movies, Petracts App">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <link rel="canonical" href="https://petracts.netlify.app/">
+
+    <!-- Open Graph Protocol (For Premium Social & Telegram Previews) -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Petwal Extracts | Petracts - Stream Premium Catalog Content">
+    <meta property="og:description" content="Discover the complete database stream directory from Petwal Extracts. Access all your favorite free movies and series instantly.">
+    <meta property="og:url" content="https://petracts.netlify.app/">
+    <meta property="og:site_name" content="Petwal Extracts">
+
     <link rel="icon" type="image/x-icon" sizes="32x32" href="logo.ico">    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -14,8 +33,8 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
-        
-        /* 1. Full-Screen Loading Screen Overlay */
+
+        /* Full-Screen Loading Screen Overlay */
         #loadingOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #0c0c0c; z-index: 9999;
@@ -32,7 +51,7 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .loading-text { font-size: 1.1rem; font-weight: 700; letter-spacing: 4px; color: #E50914; }
 
-        /* 2. Premium Navbar */
+        /* Premium Navbar */
         .hotstar-nav {
             display: flex;
             justify-content: space-between;
@@ -63,7 +82,7 @@
         }
         .count-badge strong { color: #fff; margin-left: 4px; }
 
-        /* 3. Hero CTA Spotlight Section */
+        /* Hero CTA Spotlight Section */
         .hero-section {
             height: 85vh;
             min-height: 600px;
@@ -113,7 +132,7 @@
             box-shadow: 0 6px 24px rgba(229, 9, 20, 0.6);
         }
 
-        /* 4. Infinite Loop Marquee Grid Showcase */
+        /* Infinite Loop Marquee Grid Showcase */
         .marquee-container {
             width: 100%;
             overflow: hidden;
@@ -127,7 +146,6 @@
             border-bottom: 1px solid rgba(255,255,255,0.03);
         }
         
-        /* Subtle gradients to soften marquee edges left and right */
         .marquee-container::before, .marquee-container::after {
             content: "";
             position: absolute;
@@ -144,7 +162,6 @@
             gap: 20px;
         }
         
-        /* Two distinct track rows moving in opposite horizontal directions */
         .marquee-track-left { animation: scrollLeft 40s linear infinite; }
         .marquee-track-right { animation: scrollRight 40s linear infinite; }
 
@@ -165,7 +182,7 @@
             background: #181818;
             flex-shrink: 0;
             position: relative;
-            cursor: default; /* Non-pressable pointer standard */
+            cursor: default;
             border: 1px solid rgba(255,255,255,0.05);
         }
         .movie-card img {
@@ -188,7 +205,7 @@
             white-space: nowrap;
         }
 
-        /* 5. Minimal Bottom Telegram Box Frame */
+        /* Minimal Bottom Telegram Box Frame */
         .telegram-request-section {
             padding: 80px 20px;
             display: flex;
@@ -239,7 +256,7 @@
 </head>
 <body>
 
-    <!-- Loading Screen curtain wall -->
+    <!-- Loading Screen Curtain Wall Overlay -->
     <div id="loadingOverlay">
         <div class="spinner"></div>
         <div class="loading-text">PETWAL EXTRACTS</div>
@@ -256,31 +273,31 @@
     </header>
 
     <!-- Hero Spotlight Landing Layout -->
-    <section class="hero-section">
+    <main class="hero-section">
         <div class="hero-content">
-            <h1 class="hero-title">Unlimited Extracts, Movies & Cinematic Entertainment.</h1>
-            <p class="hero-subtitle">Explore premium collections pulled directly from our cloud databases securely.</p>
+            <h1 class="hero-title">Unlimited Petwal Extracts, Free Movies & Cinematic Entertainment.</h1>
+            <p class="hero-subtitle">Explore premium Petracts collections pulled directly from our high-speed cloud streaming databases securely.</p>
             <a href="https://petracts.netlify.app/" class="cta-btn">Enter Main Application Platform App</a>
         </div>
-    </section>
+    </main>
 
     <!-- Infinite Carousel Marquee Loops Layer (Non-Clickable Displays) -->
-    <div class="marquee-container">
+    <section class="marquee-container" aria-label="Streaming Showcase Collections">
         <!-- Row moving left -->
         <div class="marquee-row marquee-track-left" id="marqueeTrack1"></div>
         <!-- Row moving right -->
         <div class="marquee-row marquee-track-right" id="marqueeTrack2"></div>
-    </div>
+    </section>
 
     <!-- Minimal Telegram Grid Section -->
-    <div class="telegram-request-section">
-        <h4 class="request-main-text">Also Join Our Telegram Community</h4>
+    <footer class="telegram-request-section">
+        <h2 class="request-main-text">Can't Find Your Title on Petwal Extracts?</h2>
         <p class="request-sub-text">Join the collective community pipeline to submit external title requests safely.</p>
         <a href="https://t.me/petwalextract" target="_blank" class="tg-join-btn">
             <svg viewBox="0 0 24 24" class="tg-icon"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .24z"/></svg>
             Join Telegram Channel
         </a>
-    </div>
+    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -304,9 +321,12 @@
             updateCategoryCounters(items);
             buildInfiniteMarquees(items);
 
+            // Hide the loading curtain cleanly once the database yields data
             const loader = document.getElementById('loadingOverlay');
-            loader.style.opacity = '0';
-            setTimeout(() => loader.style.visibility = 'hidden', 500);
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.visibility = 'hidden', 500);
+            }
         });
 
         function updateCategoryCounters(items) {
@@ -342,12 +362,10 @@
 
             if (items.length === 0) return;
 
-            // Split items smoothly between both rows
             const mid = Math.ceil(items.length / 2);
             const set1 = items.slice(0, mid);
             const set2 = items.slice(mid);
 
-            // To construct flawless CSS horizontal infinite loops, duplicate content sets twice inside lines
             const loopSet1 = [...set1, ...set1, ...set1, ...set1];
             loopSet1.forEach(m => track1.appendChild(createCardElement(m)));
 
