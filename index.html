@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petwal Extracts - Premium Streaming Catalog</title>
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="logo.ico">    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background-color: #0c0c0c; 
+            color: #fff; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* 1. Full-Screen Loading Screen Overlay */
+        #loadingOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #0c0c0c; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .spinner {
+            width: 55px; height: 55px;
+            border: 7px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #E50914; border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { font-size: 1.1rem; font-weight: 700; letter-spacing: 4px; color: #E50914; }
+
+        /* 2. Premium Navbar */
+        .hotstar-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 100%);
+            padding: 20px 6%;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .brand-logo {
+            color: #E50914;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        .category-counters { display: flex; gap: 12px; }
+        .count-badge {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #ccc;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.5px;
+        }
+        .count-badge strong { color: #fff; margin-left: 4px; }
+
+        /* 3. Hero CTA Spotlight Section */
+        .hero-section {
+            height: 85vh;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: radial-gradient(circle at center, rgba(229, 9, 20, 0.15) 0%, transparent 70%), #0c0c0c;
+            position: relative;
+        }
+        .hero-content {
+            max-width: 850px;
+            z-index: 10;
+        }
+        .hero-title {
+            font-size: calc(2.2rem + 2.5vw);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+        .hero-subtitle {
+            font-size: calc(1rem + 0.5vw);
+            color: #aaa;
+            margin-bottom: 35px;
+            font-weight: 400;
+        }
+        .cta-btn {
+            background: #E50914;
+            color: #fff;
+            border: none;
+            padding: 16px 42px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 20px rgba(229, 9, 20, 0.4);
+        }
+        .cta-btn:hover {
+            background: #ff1f2a;
+            transform: scale(1.03);
+            box-shadow: 0 6px 24px rgba(229, 9, 20, 0.6);
+        }
+
+        /* 4. Infinite Loop Marquee Grid Showcase */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            padding: 40px 0;
+            background: #090909;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        
+        /* Subtle gradients to soften marquee edges left and right */
+        .marquee-container::before, .marquee-container::after {
+            content: "";
+            position: absolute;
+            top: 0; width: 15%; height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .marquee-container::before { left: 0; background: linear-gradient(to right, #090909, transparent); }
+        .marquee-container::after { right: 0; background: linear-gradient(to left, #090909, transparent); }
+
+        .marquee-row {
+            display: flex;
+            width: max-content;
+            gap: 20px;
+        }
+        
+        /* Two distinct track rows moving in opposite horizontal directions */
+        .marquee-track-left { animation: scrollLeft 40s linear infinite; }
+        .marquee-track-right { animation: scrollRight 40s linear infinite; }
+
+        @keyframes scrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes scrollRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        .movie-card {
+            width: 180px;
+            aspect-ratio: 2 / 3;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #181818;
+            flex-shrink: 0;
+            position: relative;
+            cursor: default; /* Non-pressable pointer standard */
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .movie-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .card-overlay {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            padding: 25px 12px 12px 12px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 30%, transparent 100%);
+        }
+        .card-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        /* 5. Minimal Bottom Telegram Box Frame */
+        .telegram-request-section {
+            padding: 80px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: #0c0c0c;
+            width: 100%;
+        }
+        .request-main-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .request-sub-text {
+            font-size: 1rem;
+            color: #777;
+            margin-bottom: 30px;
+        }
+        .tg-join-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: transparent;
+            color: #0088cc;
+            text-decoration: none;
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-weight: 700;
+            border: 2px solid #0088cc;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .tg-join-btn:hover {
+            background-color: #0088cc;
+            color: #fff;
+        }
+        .tg-icon { width: 20px; height: 20px; }
+
+        @media(max-width: 768px) {
+            .category-counters { display: none; }
+            .hero-title { font-size: 2.5rem; }
+            .movie-card { width: 130px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen curtain wall -->
+    <div id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">PETWAL EXTRACTS</div>
+    </div>
+
+    <!-- Header block -->
+    <header class="hotstar-nav">
+        <a href="#" class="brand-logo">PETWAL EXTRACTS</a>
+        <div class="category-counters">
+            <span class="count-badge">Movies: <strong id="movie-count">0</strong></span>
+            <span class="count-badge">Series: <strong id="series-count">0</strong></span>
+            <span class="count-badge">Featured: <strong id="featured-count">0</strong></span>
+        </div>
+    </header>
+
+    <!-- Hero Spotlight Landing Layout -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Unlimited Extracts, Movies & Cinematic Entertainment.</h1>
+            <p class="hero-subtitle">Explore premium collections pulled directly from our cloud databases securely.</p>
+            <a href="https://petracts.netlify.app/" class="cta-btn">Enter Main Application Platform App</a>
+        </div>
+    </section>
+
+    <!-- Infinite Carousel Marquee Loops Layer (Non-Clickable Displays) -->
+    <div class="marquee-container">
+        <!-- Row moving left -->
+        <div class="marquee-row marquee-track-left" id="marqueeTrack1"></div>
+        <!-- Row moving right -->
+        <div class="marquee-row marquee-track-right" id="marqueeTrack2"></div>
+    </div>
+
+    <!-- Minimal Telegram Grid Section -->
+    <div class="telegram-request-section">
+        <h4 class="request-main-text">Also Join Our Telegram Community</h4>
+        <p class="request-sub-text">Join the collective community pipeline to submit external title requests safely.</p>
+        <a href="https://t.me/petwalextract" target="_blank" class="tg-join-btn">
+            <svg viewBox="0 0 24 24" class="tg-icon"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .24z"/></svg>
+            Join Telegram Channel
+        </a>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCH-EoNyq33_D96DU6F1iu5mDghSV53vuU",
+            authDomain: "petwal-extracts.firebaseapp.com",
+            projectId: "petwal-extracts",
+            storageBucket: "petwal-extracts.firebasestorage.app",
+            messagingSenderId: "380677712656",
+            appId: "1:380677712656:web:f5b4896288ead1cb0b9395",
+        };        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        onSnapshot(collection(db, "movies"), (snap) => {
+            let items = [];
+            snap.forEach(d => items.push({ id: d.id, ...d.data() }));
+            
+            updateCategoryCounters(items);
+            buildInfiniteMarquees(items);
+
+            const loader = document.getElementById('loadingOverlay');
+            loader.style.opacity = '0';
+            setTimeout(() => loader.style.visibility = 'hidden', 500);
+        });
+
+        function updateCategoryCounters(items) {
+            let moviesCount = 0; let seriesCount = 0; let featuredCount = 0;
+            items.forEach(item => {
+                const type = item.type ? item.type.toLowerCase() : '';
+                if (type === 'movie') moviesCount++;
+                if (type === 'series' || type === 'tvshow') seriesCount++;
+                if (item.isFeatured === true) featuredCount++;
+            });
+            document.getElementById('movie-count').textContent = moviesCount;
+            document.getElementById('series-count').textContent = seriesCount;
+            document.getElementById('featured-count').textContent = featuredCount;
+        }
+
+        function createCardElement(m) {
+            const card = document.createElement('div');
+            card.className = 'movie-card';
+            card.innerHTML = `
+                <img src="${m.thumbnail || 'placeholder-port.jpg'}" alt="${m.title}" loading="lazy">
+                <div class="card-overlay">
+                    <div class="card-title">${m.title}</div>
+                </div>
+            `;
+            return card;
+        }
+
+        function buildInfiniteMarquees(items) {
+            const track1 = document.getElementById('marqueeTrack1');
+            const track2 = document.getElementById('marqueeTrack2');
+            track1.innerHTML = '';
+            track2.innerHTML = '';
+
+            if (items.length === 0) return;
+
+            // Split items smoothly between both rows
+            const mid = Math.ceil(items.length / 2);
+            const set1 = items.slice(0, mid);
+            const set2 = items.slice(mid);
+
+            // To construct flawless CSS horizontal infinite loops, duplicate content sets twice inside lines
+            const loopSet1 = [...set1, ...set1, ...set1, ...set1];
+            loopSet1.forEach(m => track1.appendChild(createCardElement(m)));
+
+            const loopSet2 = [...set2, ...set2, ...set2, ...set2];
+            loopSet2.forEach(m => track2.appendChild(createCardElement(m)));
+        }
+    </script>
+</body>
+</html>
